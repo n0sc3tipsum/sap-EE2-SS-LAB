@@ -66,6 +66,34 @@ def plot_spec(*args, title='', dB=False, func='plot'):
     
     return plt
 
+def plot_phase(*args, title='', func='plot'):
+
+    if len(args)==1:
+        x=args[0]
+    else:
+        f_step=args[0]
+        x=args[1]
+    
+    phase = np.arctan2(np.imag(x), np.real(x))
+    phase = np.unwrap(phase)
+    
+    fig, axs = plt.subplots()
+    
+    if len(args)==1:
+        xlabel='Frequency [k]'
+        eval('axs.'+func+'(mag)')
+        axs.plot(phase)
+    else:
+        eval('axs.'+func+'(f_step, mag)')
+        axs.plot(f_step, phase)
+        
+  
+    axs.set(xlabel=xlabel, ylabel='Phase [radians] ', title = title)
+    axs.grid()
+
+    fig.tight_layout()
+    
+    return plt
 
 def plot_spec_peaks(*args, **kwargs):
 
